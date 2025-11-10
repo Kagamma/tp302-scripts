@@ -20,12 +20,29 @@ begin
       Maze[I,J] := '#';
 end;
 
+procedure PrintMaze;
+var
+  I, J: Integer;
+  S: String[80];
+begin
+  ClrScr;
+  for J := 0 to HEIGHT do
+  begin
+    S := '';
+    for I := 0 to WIDTH do
+      S := S + Maze[I,J];
+    Writeln(S);
+  end;
+end;
+
 procedure Carve(X, Y: Integer);
 var
-  I, NX, NY, Dir: Integer;
+  I, NX, NY, PX, PY, Dir: Integer;
   Neighbors: array[0..3] of Boolean;
 begin
   Maze[X,Y] := ' ';
+  GotoXY(X + 1, Y + 1);
+  Write(' ');
   for I := 0 to 3 do
     Neighbors[I] := True;
   for I := 0 to 3 do
@@ -44,23 +61,14 @@ begin
       and (NY <= HEIGHT - 1)
       and (Maze[NX,NY] = '#') then
     begin
-      Maze[X + DX[Dir],Y + DY[Dir]] := ' ';
+      PX := X + DX[Dir];
+      PY := Y + DY[Dir];
+      Maze[PX,PY] := ' ';
+      Delay(100);
+      GotoXY(PX + 1, PY + 1);
+      Write(' ');
       Carve(NX, NY);
     end;
-  end;
-end;
-
-procedure PrintMaze;
-var
-  I, J: Integer;
-  S: String[80];
-begin
-  for J := 0 to HEIGHT do
-  begin
-    S := '';
-    for I := 0 to WIDTH do
-      S := S + Maze[I,J];
-    Writeln(S);
   end;
 end;
 
@@ -69,6 +77,6 @@ begin
   DY[0] := -1; DY[1] := 0; DY[2] := 1; DY[3] := 0;
   Randomize;
   InitMaze;
-  Carve(1, 1);
   PrintMaze;
+  Carve(1, 1);
 end.

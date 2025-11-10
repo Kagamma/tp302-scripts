@@ -132,13 +132,25 @@ var
     V1 := Stack[StackPtr - 2];
     case Op of
       tkAdd:
-        V1 := V1 + V2;
+        begin
+          Writeln('Add ', V1:0:0, ',', V2:0:0);
+          V1 := V1 + V2;
+        end;
       tkSub:
-        V1 := V1 - V2;
+        begin
+          Writeln('Sub ', V1:0:0, ',', V2:0:0);
+          V1 := V1 - V2;
+        end;
       tkMul:
-        V1 := V1 * V2;
+        begin
+          Writeln('Mul ', V1:0:0, ',', V2:0:0);
+          V1 := V1 * V2;
+        end;
       tkDiv:
-        V1 := V1 / V2;
+        begin
+          Writeln('Div ', V1:0:0, ',', V2:0:0);
+          V1 := V1 / V2;
+        end;
     end;
     Stack[StackPtr - 2] := V1;
     StackPtr := StackPtr - 1;
@@ -157,6 +169,7 @@ var
           Op := NextToken;
           Stack[StackPtr] := Data;
           StackPtr := StackPtr + 1;
+          Writeln('Push ', Data:0:0);
         end;
       tkBracketOpen:
         begin
